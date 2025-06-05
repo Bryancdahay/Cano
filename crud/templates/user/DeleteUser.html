@@ -1,0 +1,22 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block title %}Delete User{% endblock %}
+
+{% block content %}
+{% include "include/sidebar.html" %}
+{% include "include/toastmess.html" %}
+
+<div class="w-full min-h-screen bg-blue-300 flex justify-center items-start pt-10">
+    <div class="w-full max-w-lg bg-white p-8 rounded shadow text-center">
+        <h2 class="text-2xl font-semibold text-red-600 mb-4">Confirm Deletion</h2>
+        <p class="mb-6">Are you sure you want to delete <strong class="text-gray-800">{{ user.full_name }}</strong>?</p>
+
+        <form method="POST" class="flex justify-center space-x-4">
+            {% csrf_token %}
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">Yes, Delete</button>
+            <a href="{% url 'user_list' %}" class="px-5 py-2 bg-gray-400 border border-gray-400 rounded text-gray-900 hover:bg-gray-200">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

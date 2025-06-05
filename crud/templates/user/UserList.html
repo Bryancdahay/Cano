@@ -1,0 +1,89 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Users List
+{% endblock title %}
+
+{% block content %}
+{% include "include/sidebar.html"%}
+{% include "include/toastmess.html" %}
+
+<div class="w-full pt-16 pl-5 pr-5 bg-blue-300">
+    <div class="relative overflow-x-auto rounded-sm">
+
+        <!-- 🔍 Search Bar -->
+<div class="flex justify-center mb-6">
+    <form method="get" class="w-full max-w-md flex">
+        <input
+            type="text"
+            name="q"
+            value="{{ query }}"
+            placeholder="Search by name or email"
+            class="w-full px-4 py-2 rounded-l-md border border-gray-500 focus:outline-none"
+        />
+        <button
+            type="submit"
+            class="bg-blue-600 text-black px-4 py-2 border border-gray-500 rounded-r-md hover:bg-blue-700"
+        >
+            Search
+        </button>
+    </form>
+</div>
+
+
+        <table class="w-full text-sm text-left text-black mb-16">
+            <thead class="text-xs uppercase bg-blue-500 text-white">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Full Name</th>
+                    <th scope="col" class="px-6 py-3">Username</th>
+                    <th scope="col" class="px-6 py-3">Gender</th>
+                    <th scope="col" class="px-6 py-3">Birthdate</th>
+                    <th scope="col" class="px-6 py-3">Address</th>
+                    <th scope="col" class="px-6 py-3">Contact Number</th>
+                    <th scope="col" class="px-6 py-3">Email</th>
+                    <th scope="col" class="px-6 py-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="bg-blue-100">
+                {% for user in users %}
+                <tr class="hover:bg-blue-200 border-b border-gray-300">
+                    <td class="px-6 py-3">{{ user.full_name }}</td>
+                    <td class="px-6 py-3">{{ user.username }}</td>
+                    <td class="px-6 py-3">{{ user.gender.gender }}</td>
+                    <td class="px-6 py-3">{{ user.birth_date }}</td>
+                    <td class="px-6 py-3">{{ user.address }}</td>
+                    <td class="px-6 py-3">{{ user.contact_number }}</td>
+                    <td class="px-6 py-3">{{ user.email }}</td>
+                    <td class="px-6 py-3 pt-5 inline-flex">
+                        <a href="{% url 'edit_user' user.user_id %}" class="bg-green-600 px-3 py-2 font-medium text-white hover:bg-green-700 rounded-l-sm">Edit</a>
+                        <a href="{% url 'delete_user' user.user_id %}" class="bg-red-600 px-3 py-2 font-medium text-white hover:bg-red-800 rounded-r-sm">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center px-6 py-4 text-gray-600">
+                        No users found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- ✅ Pagination Controls -->
+        <div class="flex justify-center items-center space-x-2 pb-6">
+            {% if users.has_previous %}
+                <a href="?page=1" class="px-3 py-1 bg-white border rounded">First</a>
+                <a href="?page={{ users.previous_page_number }}" class="px-3 py-1 bg-white border rounded">Previous</a>
+            {% endif %}
+
+            <span class="px-3 py-1 bg-blue-200 rounded">Page {{ users.number }} of {{ users.paginator.num_pages }}</span>
+
+            {% if users.has_next %}
+                <a href="?page={{ users.next_page_number }}" class="px-3 py-1 bg-white border rounded">Next</a>
+                <a href="?page={{ users.paginator.num_pages }}" class="px-3 py-1 bg-white border rounded">Last</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

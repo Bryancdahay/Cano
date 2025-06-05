@@ -1,0 +1,96 @@
+{% extends "layout/base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<style>
+  body {
+    background-color: #f3f4f6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .container {
+    max-width: 360px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #1e40af;
+  }
+  form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #1e40af;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  form button:hover {
+    background-color: #3749c1;
+  }
+  .error {
+    color: #dc2626;
+    background-color: #fee2e2;
+    border: 1px solid #fca5a5;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+  }
+  p {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+    color: #4b5563;
+  }
+  a {
+    color: #1e40af;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  /* Style form fields */
+  form input, form select, form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+  }
+  form input:focus, form select:focus, form textarea:focus {
+    outline: none;
+    border-color: #1e40af;
+    box-shadow: 0 0 3px #93c5fd;
+  }
+</style>
+
+<div class="container">
+  <h2>Login</h2>
+
+  {% if form.errors %}
+    <div class="error">Username or password is incorrect.</div>
+  {% endif %}
+
+  <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Login</button>
+  </form>
+
+  <p>Don't have an account? <a href="{% url 'signup' %}">Sign up here</a>.</p>
+</div>
+
+{% endblock %}

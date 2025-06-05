@@ -1,0 +1,130 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Add User{% endblock title %}
+
+{% block content %}
+{% include "include/sidebar.html" %}
+{% include "include/toastmess.html" %}
+
+<div class="w-full min-h-screen pt-20 pb-14 bg-blue-300 flex justify-center items-start">
+    <form action="{% url 'add_user' %}" method="post"
+          class="bg-white shadow-md rounded-md p-8 w-full max-w-2xl space-y-6">
+        {% csrf_token %}
+
+        <h2 class="text-2xl font-semibold text-center text-blue-800">Add New User</h2>
+
+        <!-- Full Name -->
+        <div>
+            <label for="full_name" class="block mb-1 font-medium text-gray-800">Full Name</label>
+            <input type="text" id="full_name" name="full_name"
+                   value="{{ form_data.full_name|default:'' }}"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            {% if errors.full_name %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.full_name }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Gender -->
+        <div>
+            <label for="gender" class="block mb-1 font-medium text-gray-800">Gender</label>
+            <select name="gender" id="gender"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <option value="">Select Gender</option>
+                {% for gender in genders %}
+                <option value="{{ gender.gender_id }}"
+                        {% if form_data.gender == gender.gender_id|stringformat:"s" %}selected{% endif %}>
+                    {{ gender.gender }}
+                </option>
+                {% endfor %}
+            </select>
+            {% if errors.gender %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.gender }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Birth Date -->
+        <div>
+            <label for="birth_date" class="block mb-1 font-medium text-gray-800">Birth Date</label>
+            <input type="date" id="birth_date" name="birth_date"
+                   value="{{ form_data.birth_date|default:'' }}"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            {% if errors.birth_date %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.birth_date }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Address -->
+        <div>
+            <label for="address" class="block mb-1 font-medium text-gray-800">Address</label>
+            <input type="text" id="address" name="address"
+                   value="{{ form_data.address|default:'' }}"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            {% if errors.address %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.address }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Contact Number -->
+        <div>
+            <label for="contact_number" class="block mb-1 font-medium text-gray-800">Contact Number</label>
+            <input type="text" id="contact_number" name="contact_number"
+                   value="{{ form_data.contact_number|default:'' }}"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            {% if errors.contact_number %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.contact_number }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Email -->
+        <div>
+            <label for="email" class="block mb-1 font-medium text-gray-800">Email</label>
+            <input type="email" id="email" name="email"
+                   value="{{ form_data.email|default:'' }}"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            {% if errors.email %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.email }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Username -->
+        <div>
+            <label for="username" class="block mb-1 font-medium text-gray-800">Username</label>
+            <input type="text" id="username" name="username"
+                   value="{{ form_data.username|default:'' }}"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            {% if errors.username %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.username }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Password -->
+        <div>
+            <label for="password" class="block mb-1 font-medium text-gray-800">Password</label>
+            <input type="password" id="password" name="password"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            {% if errors.password %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.password }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+            <label for="confirm_password" class="block mb-1 font-medium text-gray-800">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            {% if errors.confirm_password %}
+            <p class="text-red-600 text-sm mt-1">{{ errors.confirm_password }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center pt-2">
+            <button type="submit"
+                    class="bg-green-700 hover:bg-green-800 text-white font-medium px-6 py-2 rounded-md transition">
+                Save User
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,11 @@
+{% load static %}
+
+{% if messages %}
+    {% for message in messages %}
+
+    <div id="toast-success"class= "w-fit bg-green-400 ml-56 mt-3 p-2 fixed w-52 rounded-2xl">
+      <div class ="font-normal">{{ message }}</div>
+    </div>
+
+{% endfor %}
+{% endif %}

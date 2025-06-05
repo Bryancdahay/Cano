@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tailwind Sidebar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex text-wrap min-h-screen bg-gray-100">
+
+  <aside class="w-64 bg-blue-500 shadow-md hidden md:block">
+    <div class="h-full flex flex-col justify-between">
+
+      <div>
+        <div class="p-10 text-xl font-bold text-black">
+          GroupSeven
+        </div>
+
+        <nav class="mt-6 ">
+          {% if user.is_authenticated %}
+            <a href="{% url 'add_gender' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">Add Gender</a>
+            <a href="{% url 'gender_list' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">Gender List</a>
+            <a href="{% url 'user_list' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">User List</a>
+            <a href="{% url 'add_user' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">Add User</a>
+            <a href="{% url 'logout' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">Logout</a>
+          {% else %}
+            <a href="{% url 'add_gender' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">Add Gender</a>
+            <a href="{% url 'gender_list' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">Gender List</a>
+            <a href="{% url 'user_list' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">User List</a>
+            <a href="{% url 'add_user' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">Add User</a>
+            <a href="{% url 'logout' %}" class="block ml-4 pl-10 mt-6 mb-6 mr-4 py-3 text-black hover:bg-blue-200">Logout</a>
+          {% endif %}
+        </nav>
+      </div>
+
+    </div>
+  </aside>
+
+</body>
+</html>

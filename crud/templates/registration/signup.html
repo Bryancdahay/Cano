@@ -1,0 +1,115 @@
+{% extends "layout/base.html" %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+
+<style>
+  body {
+    background-color: #f3f4f6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .container {
+    max-width: 360px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #15803d; /* green-700 */
+  }
+  form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #15803d; /* green-700 */
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  form button:hover {
+    background-color: #166534; /* green-800 */
+  }
+  p {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+    color: #4b5563;
+  }
+  a {
+    color: #15803d;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  /* Style form fields */
+  form input, form select, form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+  }
+  form input:focus, form select:focus, form textarea:focus {
+    outline: none;
+    border-color: #15803d;
+    box-shadow: 0 0 3px #bbf7d0;
+  }
+
+  /* error message style */
+  .errorlist {
+    color: #dc2626; /* red-600 */
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    list-style-type: none;
+    padding-left: 0;
+  }
+</style>
+
+<div class="container">
+  <h2>Sign Up</h2>
+
+  <form method="post" novalidate>
+      {% csrf_token %}
+
+      {# Non-field (general) errors #}
+      {% if form.non_field_errors %}
+        <ul class="errorlist">
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {# Each field with errors #}
+      {% for field in form %}
+        <p>
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <ul class="errorlist">
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </p>
+      {% endfor %}
+
+      <button type="submit">Submit</button>
+  </form>
+
+  <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+</div>
+
+{% endblock %}
