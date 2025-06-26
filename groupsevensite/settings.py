@@ -81,7 +81,7 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
-        'NAME': 'groupsevensite_db',
+        'NAME': 'groupeight_db',
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': '',

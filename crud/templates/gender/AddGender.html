@@ -7,16 +7,16 @@
     {% include "include/sidebar.html" %}
     {% include "include/toastmess.html" %}
 
-    <div class="w-full pl-5 pr-5 pt-5 flex justify-center bg-blue-300">
+    <div class="w-full pl-5 pr-5 pt-5 flex justify-center bg-blue-900">
         <form action="{% url 'add_gender' %}" method="post">
 
             {% csrf_token %}
             <div class="mx-auto w-full mb-2">
-                <label for="gender" class="block text-sm font-medium mb-2 text-center">Gender</label>
-                <input type="text" class="bg-white mb-2 px-3 py-2.5 border border-gray-600 text-black block text-sm rounded-sm w-96 focus:outline-none focus:ring-blue-700 focus:border-blue-700" name="gender" id="gender" />
+                <label for="gender" class="block text-sm text-gray-200 font-medium mb-2 text-center">Gender</label>
+                <input type="text" class="bg-[white] mb-2 px-3 py-2.5 border border-gray-600 text-black block text-sm rounded-sm w-96 focus:outline-none focus:ring-blue-700 focus:border-blue-700" name="gender" id="gender" />
 
                 <div class="flex">
-                    <button type="submit" class="bg-green-600 hover:bg-green-800 block mx-auto text-sm font-medium text-white px-3 py-2.5 rounded-sm shadow-sm cursor-pointer">Save Gender</button>
+                    <button type="submit" class="bg-green-600 hover:bg-green-800 block mx-auto text-sm font-medium text-black px-3 py-2.5 rounded-sm shadow-sm cursor-pointer">Save Gender</button>
                 </div>
             </div>
         </form>

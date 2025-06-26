@@ -19,7 +19,8 @@ def AuthView(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            login(request, form.get_user())
+            login(request, form.save())
+            messages.success(request, 'Logged in successfully!')
             return redirect('login')
         else:
             # This is where you print form errors to the console for debugging
@@ -248,6 +249,9 @@ def edit_user(request, user_id):
         # Check for duplicate username
         if Users.objects.exclude(user_id=user_id).filter(username=username).exists():
             errors['username'] = 'This username is already taken.'
+        
+        if Users.objects.exclude(user_id=user_id).filter(full_name=full_name).exists():
+            errors['full_name'] = 'This Full Name is already taken.'
 
         # Check for duplicate email
         if Users.objects.exclude(user_id=user_id).filter(email=email).exists():

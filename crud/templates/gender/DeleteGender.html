@@ -7,11 +7,11 @@
 {% include "include/sidebar.html" %}
 {% include "include/toastmess.html" %}
 
-    <div class= "w-full pl-5 pt-16 pr-5 bg-blue-300" >
+    <div class= "w-full pl-5 pt-16 pr-5 bg-blue-900" >
         <form action="/gender/delete/{{ gender.gender_id }}" method="post">
             {% csrf_token %}
             <div class="mx-auto w-full mb-2">
-                <label for="gender" class="block text-sm font-medium mb-2">Gender</label>
+                <label for="gender" class="block text-sm text-gray-200 font-medium mb-2">Gender</label>
                 <input type="text" class="bg-white mb-2 px-3 py-2.5 border-gray-300 text-black block text-sm rounded-sm w-96 focus:outline-none focus:ring-blue-600 focus:border-blue-600" name="gender" id="gender" value="{{ gender.gender }}" />
                 <div class="flex">
                     <a href="/gender/list" class="bg-white text-sm font-medium text-black mr-1 px-3 py-2.5 rounded-sm shadow-sm cursor-pointer hover:bg-gray-300 hover:outline-none">Back </a>
