@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.db import IntegrityError
 
 
 @login_required
@@ -144,58 +145,63 @@ def user_list(request):
 
 @login_required
 def add_user(request):
-    try:
-        if request.method == 'POST':
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name')
+        gender_id = request.POST.get('gender')
+        birth_date = request.POST.get('birth_date')
+        address = request.POST.get('address')
+        contact_number = request.POST.get('contact_number')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
 
-            full_name = request.POST.get('full_name')
-            gender_id = request.POST.get('gender')
-            birth_date = request.POST.get('birth_date')
-            address = request.POST.get('address')
-            contact_number = request.POST.get('contact_number')
-            email = request.POST.get('email')
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            confirm_password = request.POST.get('confirm_password')
+        errors = {}
 
-            errors = {}
+        # Required field validation
+        if not full_name:
+            errors['full_name'] = 'Full name is required.'
+        if not gender_id:
+            errors['gender'] = 'Please select a gender.'
+        if not birth_date:
+            errors['birth_date'] = 'Birth date is required.'
+        if not address:
+            errors['address'] = 'Address is required.'
+        if not contact_number:
+            errors['contact_number'] = 'Contact number is required.'
+        if not email:
+            errors['email'] = 'Email is required.'
+        if not username:
+            errors['username'] = 'Username is required.'
+        if not password:
+            errors['password'] = 'Password is required.'
+        if password != confirm_password:
+            errors['confirm_password'] = 'Passwords do not match.'
 
-            # Validate required fields
-            if not full_name:
-                errors['full_name'] = 'Full name is required.'
-            if not gender_id:
-                errors['gender'] = 'Please select a gender.'
-            if not birth_date:
-                errors['birth_date'] = 'Birth date is required.'
-            if not address:
-                errors['address'] = 'Address is required.'
-            if not contact_number:
-                errors['contact_number'] = 'Contact number is required.'
-            if not email:
-                errors['email'] = 'Email is required.'
-            if not username:
-                errors['username'] = 'Username is required.'
-            if not password:
-                errors['password'] = 'Password is required.'
-            if password != confirm_password:
-                errors['confirm_password'] = 'Passwords do not match.'
+        # Gender check
+        gender_obj = None
+        if gender_id:
+            try:
+                gender_obj = Gender.objects.get(pk=gender_id)
+            except Gender.DoesNotExist:
+                errors['gender'] = 'Selected gender is invalid.'
 
-            # Check gender existence if selected
-            gender_obj = None
-            if gender_id:
-                try:
-                    gender_obj = Gender.objects.get(pk=gender_id)
-                except Gender.DoesNotExist:
-                    errors['gender'] = 'Selected gender is invalid.'
+        # Duplicate checks
+        if email and Users.objects.filter(email=email).exists():
+            errors['email'] = 'Email already exists.'
+        if username and Users.objects.filter(username=username).exists():
+            errors['username'] = 'Username already exists.'
 
-            # If any errors, show form with errors
-            if errors:
-                return render(request, 'user/AddUser.html', {
-                    'errors': errors,
-                    'form_data': request.POST,
-                    'genders': Gender.objects.all()
-                })
+        # Show form if errors
+        if errors:
+            return render(request, 'user/AddUser.html', {
+                'errors': errors,
+                'form_data': request.POST,
+                'genders': Gender.objects.all()
+            })
 
-            # Save user
+        # Try saving user, catch uniqueness error as backup
+        try:
             Users.objects.create(
                 full_name=full_name,
                 gender=gender_obj,
@@ -206,16 +212,19 @@ def add_user(request):
                 username=username,
                 password=make_password(password)
             )
-            
-
             messages.success(request, "User added successfully!")
             return redirect('user_list')
 
-        else:
-            return render(request, 'user/AddUser.html', {'genders': Gender.objects.all()})
+        except IntegrityError as e:
+            errors['general'] = 'A user with that email or username already exists.'
+            return render(request, 'user/AddUser.html', {
+                'errors': errors,
+                'form_data': request.POST,
+                'genders': Gender.objects.all()
+            })
 
-    except Exception as e:
-        return HttpResponse(f'Error occurred during add user: {e}')
+    else:
+        return render(request, 'user/AddUser.html', {'genders': Gender.objects.all()})
     
 @login_required
 def edit_user(request, user_id):

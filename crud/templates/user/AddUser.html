@@ -7,6 +7,12 @@
 {% include "include/toastmess.html" %}
 
 <div class="w-full min-h-screen pt-20 pb-14 bg-blue-900 flex justify-center items-start">
+    {% if errors.general %}
+  <div class="bg-red-100 text-red-700 p-2 rounded">
+    {{ errors.general }}
+  </div>
+{% endif %}
+
     <form action="{% url 'add_user' %}" method="post"
           class="bg-orange-100 shadow-md rounded-md p-8 w-full max-w-2xl space-y-6">
         {% csrf_token %}
